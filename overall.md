@@ -1,26 +1,26 @@
-# 🧠 Personal Assistant Architecture
+# Personal Assistant Architecture
 
 This document outlines the updated system design for the **Professor + Agent Assistant**.
 
 ---
 
-## 🌐 High-Level Overview
+## High-Level Overview
 
 ```mermaid
 flowchart TD
 
-    subgraph Uploads[📤 Upload Options]
+    subgraph Uploads[Upload Options]
         KBUpload[Upload to Knowledge Base] --> KBStore[Qdrant Collection: knowledge_base]
         AgenticUpload[Upload to Agentic System] --> AgenticStore[Qdrant Collection: agentic_store]
     end
 
-    subgraph ProfessorMode[🎓 Professor Mode (Knowledge Base)]
+    subgraph ProfessorMode[Professor Mode (Knowledge Base)]
         KBStore -->|Domains| PythonKB[Python]
         KBStore -->|Domains| MSKB[Multiple Sclerosis]
         KBStore -->|Domains| EnglishKB[English & Vocabulary]
     end
 
-    subgraph AgenticRAG[🤖 Agentic RAG]
+    subgraph AgenticRAG[Agentic RAG]
         AgenticStore --> FileTypes[Docs/Repos/Scans]
 
         FileTypes --> PDF[PDF/DOCX/CSV/XLSX Parser]
@@ -43,7 +43,7 @@ flowchart TD
         AgenticStore --> Opik[Opik Evaluation + Dashboards]
     end
 
-    subgraph Memory[💾 Memory System]
+    subgraph Memory[Memory System]
         STM[Short-Term Memory]
         LTM[Long-Term Memory]
         Episodic[Episodic Memory → Logs, OCR choices, Opik evals]
@@ -51,14 +51,14 @@ flowchart TD
         Procedural[Procedural Memory → Workflows]
     end
 
-    subgraph EnglishCoach[📝 English Coach (Optional Wrapper)]
+    subgraph EnglishCoach[English Coach (Optional Wrapper)]
         ECSession[Start/Stop Session → Timestamp]
         ECSession --> ECRecord[Monitor all chats/dictations]
         ECRecord --> ECAnalysis[Post-Session Analysis: vocab, grammar, readability]
         ECAnalysis --> ECDashboard[Separate English Progress Dashboard]
     end
 
-    subgraph Interaction[🎙 Interaction Layer]
+    subgraph Interaction[Interaction Layer]
         ChatUI[Chat Interface (friend/professor tone)]
         STT[Speech-to-Text (Dictation)]
     end
