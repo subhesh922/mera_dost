@@ -1,0 +1,17 @@
+---
+config:
+  layout: dagre
+---
+flowchart TB
+    User(["🧑 User"]) --> UI["💻 Streamlit / FastAPI UI\nUser selects options"]
+    UI --> CrewAI["🤖 CrewAI Orchestrator"]
+    CrewAI -- Option 1 --> Qdrant[("🗄️ Qdrant - Memory")]
+    CrewAI -- Option 2 --> WebSearch["🌐 Web Search"]
+    CrewAI -- Option 3 --> Hybrid["🔀 Hybrid Retrieval"]
+    Qdrant --> Reasoning1(("gpt-oss:20b\nThinkLarger")) & Reasoning2(("deepseek-r1:8b\nThinkMini"))
+    WebSearch --> Reasoning1 & Reasoning2
+    Hybrid --> Reasoning1 & Reasoning2
+    Reasoning1 --> QuickThink["⚡ QuickThink\nChain of Thought"] & DeepThink["🌳 DeepThink\nTree of Thought"]
+    Reasoning2 --> QuickThink & DeepThink
+    QuickThink --> UI
+    DeepThink --> UI
