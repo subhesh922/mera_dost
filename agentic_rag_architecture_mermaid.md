@@ -1,18 +1,28 @@
 ```mermaid
-flowchart LR
-    User([🧑 User]) --> UI[💻 Streamlit / FastAPI UI]
+flowchart TB
+    User([🧑 User]) --> UI[💻 Streamlit / FastAPI UI\n(User selects options)]
     UI --> CrewAI[🤖 CrewAI Orchestrator]
 
-    CrewAI -->|Embed docs/queries| Embeddings[(bge-large:335m)]
-    Embeddings -->|Store vectors| Qdrant[(🗄️ Qdrant - Persistent Volume)]
-    CrewAI -->|Retrieve context| Qdrant
-    CrewAI -->|Fallback if low recall| WebSearch[🌐 Web Search]
+    %% Retrieval choices
+    CrewAI -->|Option 1| Qdrant[(🗄️ Qdrant - Memory)]
+    CrewAI -->|Option 2| WebSearch[🌐 Web Search]
+    CrewAI -->|Option 3| Hybrid[🔀 Hybrid Retrieval]
 
-    Qdrant -->|Context| Reasoning((gpt-oss:20b))
-    WebSearch -->|External context| Reasoning
-    CrewAI -->|Tasks / Prompts| Reasoning
-    CrewAI -->|Generic Q&A| Chat((deepseek-r1:8b))
+    %% Reasoning models
+    Qdrant --> Reasoning1((gpt-oss:20b\nThinkLarger))
+    Qdrant --> Reasoning2((deepseek-r1:8b\nThinkMini))
+    WebSearch --> Reasoning1
+    WebSearch --> Reasoning2
+    Hybrid --> Reasoning1
+    Hybrid --> Reasoning2
 
-    Reasoning -->|Responses| UI
-    Chat -->|Responses| UI
+    %% Thinking modes
+    Reasoning1 --> QuickThink[⚡ QuickThink\nChain of Thought]
+    Reasoning1 --> DeepThink[🌳 DeepThink\nTree of Thought]
+    Reasoning2 --> QuickThink
+    Reasoning2 --> DeepThink
+
+    %% Responses
+    QuickThink --> UI
+    DeepThink --> UI
 ```
