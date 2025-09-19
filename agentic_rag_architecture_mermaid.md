@@ -1,6 +1,5 @@
-```mermaid
 flowchart TB
-    User([🧑 User]) --> UI[💻 Streamlit / FastAPI UI\n(User selects options)]
+    User([🧑 User]) --> UI[💻 Streamlit / FastAPI UI\nUser selects options]
     UI --> CrewAI[🤖 CrewAI Orchestrator]
 
     %% Retrieval choices
@@ -25,4 +24,3 @@ flowchart TB
     %% Responses
     QuickThink --> UI
     DeepThink --> UI
-```
